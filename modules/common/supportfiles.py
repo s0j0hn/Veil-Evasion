@@ -51,8 +51,8 @@ def supportingFiles(payload, payloadFile, options):
     if language.lower() == "python":
 
         # first, obfuscate the python code
-        if not pyobfuscate(payloadFile):
-            print helpers.color(" [!] ERROR: something went wrong while obfuscating python code.", warning=True)
+        #if not pyobfuscate(payloadFile):
+        #    print helpers.color(" [!] ERROR: something went wrong while obfuscating python code.", warning=True)
 
         # if we aren't passed any options, do the interactive menu
         if len(options) == 0:
@@ -119,7 +119,7 @@ def supportingFiles(payload, payloadFile, options):
             else:
                 # copy the original runw.exe into the proper location
                 runwPath = settings.VEIL_EVASION_PATH+"tools/runw_orig.exe"
-                os.system("cp "+runwPath+" " + settings.PYINSTALLER_PATH + "support/loader/Windows-32bit/runw.exe")
+                os.system("cp " + runwPath + " " + settings.PYINSTALLER_PATH + "/PyInstaller/bootloader/Windows-32bit/runw.exe")
 
             # Check for Wine python.exe Binary (Thanks to darknight007 for this fix.)
             # Thanks to Tim Medin for patching for non-root non-kali users
@@ -142,9 +142,9 @@ def supportingFiles(payload, payloadFile, options):
             # TODO: os.system() is depreciated, use subprocess or commands instead
             random_key = helpers.randomString()
             if architecture == "64":
-                os.system('WINEPREFIX=' + settings.WINEPREFIX + ' wine64 ' + settings.WINEPREFIX + '/drive_c/Python27/python.exe' + ' ' + os.path.expanduser(settings.PYINSTALLER_PATH + '/pyinstaller.py') + ' --noconsole --onefile --key ' + random_key + ' ' + payloadFile)
+                os.system('WINEPREFIX=' + settings.WINEPREFIX + ' wine64 ' + settings.WINEPREFIX + '/drive_c/Python27/python.exe' + ' ' + os.path.expanduser(settings.PYINSTALLER_PATH + '/pyinstaller.py') + ' --onefile --noconsole --key ' + random_key + ' ' + payloadFile)
             else:
-                os.system('WINEPREFIX=' + settings.WINEPREFIX + ' wine ' + settings.WINEPREFIX + '/drive_c/Python27/python.exe' + ' ' + os.path.expanduser(settings.PYINSTALLER_PATH + '/pyinstaller.py') + ' --noconsole --onefile --key ' + random_key + ' ' + payloadFile)
+                os.system('WINEPREFIX=' + settings.WINEPREFIX + ' wine ' + settings.WINEPREFIX + '/drive_c/Python27/python.exe' + ' ' + os.path.expanduser(settings.PYINSTALLER_PATH + '/pyinstaller.py') + ' --onefile --noconsole --key ' + random_key + ' ' + payloadFile)
 
             if settings.TERMINAL_CLEAR != "false": messages.title()
 
@@ -1482,5 +1482,4 @@ def generatePwnstaller():
     # copy the loader into the correct location
     os.system("mv runw.exe " + settings.PYINSTALLER_PATH + "support/loader/Windows-32bit/")
 
-    print " [*] Pwnstaller runw.exe moved to "+ settings.PYINSTALLER_PATH + "support/loader/Windows-32bit/\n"
-
+    print " [*] Pwnstaller runw.exe moved to "+ settings.PYINSTALLER_PATH + "/PyInstaller/bootloader/Windows-32bit/\n"
